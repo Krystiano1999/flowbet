@@ -32,4 +32,16 @@ class Coupon extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $casts = [
+        'step_id' => 'integer',
+        'user_id' => 'integer',
+        'amount' => 'float',
+        'odds' => 'float',
+        'events_count' => 'integer',
+        'won_events_count' => 'integer',
+        'lost_events_count' => 'integer',
+        'win_amount' => 'float',
+        'loss_amount' => 'float',
+    ];
 }

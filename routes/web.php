@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StepController;
+use App\Http\Controllers\CouponController;
 
 Route::get('/', function () {
     return view('sites.index');
@@ -27,9 +28,13 @@ Route::prefix('panel')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::view('/steps', 'panel.steps.index')->name('steps');
+    Route::view('/coupons', 'panel.coupons.index')->name('coupons');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/steps', [StepController::class, 'store'])->name('steps.store');
     Route::get('/steps', [StepController::class, 'index'])->name('steps.index');
+    Route::get('/steps/summary', [StepController::class, 'getStepNumbersAndBudgets']);
+
+    Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
 });

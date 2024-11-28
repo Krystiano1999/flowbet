@@ -8,7 +8,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <h1 class="mb-4">Kupony</h1>
         @if(auth()->user()->id == 1)
-        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addStepModal">
+        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addCouponModal">
             Dodaj kupon
         </button>
         @endif

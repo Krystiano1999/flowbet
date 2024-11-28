@@ -55,4 +55,19 @@ class StepController extends Controller
             'steps' => $steps,
         ]);
     }
+
+    /**
+     * Fetch step numbers and their budgets.
+     *
+     * @return JsonResponse
+     */
+    public function getStepNumbersAndBudgets(): JsonResponse
+    {
+        $steps = Step::select('step_number', 'budget')->orderBy('step_number')->get();
+
+        return response()->json([
+            'success' => true,
+            'steps' => $steps,
+        ]);
+    }
 }

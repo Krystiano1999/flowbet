@@ -7,7 +7,7 @@
         <a href="{{ route('steps') }}" class="nav-link d-flex align-items-center">
             <i class="fas fa-shoe-prints me-3"></i> Kroki
         </a>
-        <a href="#" class="nav-link d-flex align-items-center">
+        <a href="{{ route('coupons') }}" class="nav-link d-flex align-items-center">
             <i class="fas fa-ticket-alt me-3"></i> Kupony
         </a>
         <a href="#" class="nav-link d-flex align-items-center">
