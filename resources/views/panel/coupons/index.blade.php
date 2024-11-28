@@ -14,7 +14,7 @@
         @endif
     </div>
 
-    <div id="coupons-container" class="list-group"></div>
+    <div id="coupons-container" class="accordion"></div>
 </div>
 
 @include('panel.coupons.modal.add_coupon')

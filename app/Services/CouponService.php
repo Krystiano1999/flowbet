@@ -32,4 +32,62 @@ class CouponService
 
         return Coupon::create($data);
     }
+
+
+    /**
+     * Retrieve coupons, grouping them by steps, along with a summary.
+     *
+     * @return array
+     */
+    public function getCouponsGroupedByStep(): array
+    {
+        return Coupon::with('step')
+            ->get()
+            ->groupBy('step.step_number')
+            ->map(function ($group) {
+                $summary = [
+                    'total_amount' => 0,
+                    'total_win' => 0,
+                    'total_loss' => 0,
+                    'total_balance' => 0,
+                ];
+
+                $group = $group->map(function ($coupon) use (&$summary) {
+                    $balance = $coupon->result === 'win'
+                        ? $coupon->win_amount - $coupon->amount
+                        : 0 - $coupon->amount;
+
+                    $summary['total_amount'] += $coupon->amount;
+                    $summary['total_win'] += $coupon->win_amount ?? 0;
+                    $summary['total_loss'] += $coupon->loss_amount ?? 0;
+                    $summary['total_balance'] += $balance;
+
+                    $isFinished = ($coupon->won_events_count + $coupon->lost_events_count === $coupon->events_count);
+                    $status = $isFinished ? 'inactive' : 'active';
+
+                    return [
+                        'id' => $coupon->id,
+                        'type' => $coupon->type === 'standard'
+                            ? 'Kupon'
+                            : 'Extra',
+                        'amount' => $coupon->amount,
+                        'odds' => $coupon->odds,
+                        'result' => $coupon->result,
+                        'win_amount' => $coupon->win_amount,
+                        'loss_amount' => $coupon->loss_amount,
+                        'balance' => $balance,
+                        'events_count' => $coupon->events_count,
+                        'won_events_count' => $coupon->won_events_count,
+                        'lost_events_count' => $coupon->lost_events_count,
+                        'status' => $status,
+                    ];
+                });
+
+                return [
+                    'coupons' => $group,
+                    'summary' => $summary,
+                ];
+            })
+            ->toArray();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCouponRequest;
 use App\Services\CouponService;
 use Illuminate\Http\JsonResponse;
+use App\Models\Coupon;
 
 class CouponController extends Controller
 {
@@ -38,5 +39,20 @@ class CouponController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Get a coupon grouped by steps.
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $coupons = $this->couponService->getCouponsGroupedByStep();
+
+        return response()->json([
+            'success' => true,
+            'coupons' => $coupons,
+        ]);
     }
 }

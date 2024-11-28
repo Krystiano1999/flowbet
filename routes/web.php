@@ -27,8 +27,8 @@ Route::prefix('panel')->group(function () {
     Route::view('/', 'panel.dashboard.index')->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::view('/steps', 'panel.steps.index')->name('steps');
-    Route::view('/coupons', 'panel.coupons.index')->name('coupons');
+    Route::view('/kroki', 'panel.steps.index')->name('steps');
+    Route::view('/kupony', 'panel.coupons.index')->name('coupons');
 });
 
 Route::middleware('auth')->group(function () {
@@ -37,4 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/steps/summary', [StepController::class, 'getStepNumbersAndBudgets']);
 
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
+    Route::get('/coupons/data', [CouponController::class, 'index'])->name('coupons.data');
+ 
 });
