@@ -12,27 +12,23 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-    <header class="w-100 py-3 px-5 d-flex justify-content-between align-items-center bg-header">
-        <div class="title">
-            <span class="h1 color-primary mb-0">Flow</span><span class="h1 color-black mb-0">Do</span>
+    <header class="w-100 d-flex justify-content-between align-items-center bg-white shadow">
+        <div class="title left-side ps-5 py-2">
+            <span class="h1 color-primary mb-0">Flow</span><span class="h1 text-dark mb-0">Do</span>
         </div>
         
-        <!--<div class="search">Kiedyś będzie szukajka</div>-->
-
-        <div class="notify d-flex align-items-center">
-            <div class="icon me-2">
-                <i class="far fa-bell"></i>
+        <div class="notify d-flex align-items-center justify-content-end right-side pe-5 py-2">
+            <div class="d-block me-4">
+                <p class="mb-0 text-dark"><strong>Budżet: </strong><strong>10</strong></p>
             </div>
-            <div class="icon me-5">
-                <i class="far fa-calendar-alt"></i>
-            </div>
-            <div class="d-block">
-                <p class="mb-0 color-black"><strong>{{ now()->locale('pl')->translatedFormat('l') }}</strong></p>
-                <p class="mb-0 color-primary"><strong>{{ now()->format('d/m/Y') }}</strong></p>
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="user-photo d-flex justify-content-center align-items-center bg-info text-white rounded-circle">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
             </div>
         </div>
     </header>
-    <div class="container-fluid bg px-0 app-container">
+    <div class="container-fluid bg-light px-0 app-container">
         <div class="d-flex h-100">
             <div class="menu h-100 position-relative">
                 @include('partials.nav')

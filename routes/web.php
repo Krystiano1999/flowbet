@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('sites.index');
@@ -21,5 +22,7 @@ Route::prefix('panel')->middleware('guest')->group(function () {
 });
 
 Route::prefix('panel')->middleware('auth')->group(function () {
+    Route::view('/', 'panel.dashboard.index')->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });

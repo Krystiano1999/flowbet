@@ -1,0 +1,134 @@
+a{
+    text-decoration: none;
+}
+
+.rounded-custom {
+    border-radius: 30px;
+}
+
+header{
+    max-height: 64px;
+}
+
+.left-side{
+    width: 265px;
+}
+
+.right-side{
+    width: calc(100% - 265px);
+    border-left:1px solid var(--bs-light);
+}
+
+.menu{
+    width: 265px;
+    padding-top: 2px;
+}
+
+.content{
+    width: calc(100% - 265px);
+    padding-top: 2px;
+}
+
+.content .row{
+    height: calc(100% - 36px);
+}
+
+.user-photo{
+    width: 36px; 
+    height: 36px; 
+    font-size: 21px; 
+    font-weight: 600;
+    margin: 0 auto;
+    border: 1px solid var(--bs-white);
+}
+
+.user-name{
+    color: var(--bs-white);
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.user-email{
+    color: var(--bs-white);
+    font-weight: 300;
+    font-size: 18px;
+}
+
+/* .menu .nav{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px; 
+} */
+
+nav .nav-link,
+.nav .nav-link:active,
+.nav .nav-link:focus,
+.nav .nav-link:focus-visible{
+    color: var(--bs-primary);
+    background-color: transparent;
+    font-weight: 600;
+    letter-spacing: .5px;
+    font-size: 14px;
+    transition: all .35 ease-in-out;
+    margin:10px 0;
+}
+
+nav .nav-link:hover{
+    color: var(--bs-primary);
+    background-color:var(--bs-light);
+}
+
+nav .nav-link i{
+    width:30px;
+    font-size: 23px;
+}
+
+.app-container{
+    max-height: calc(100vh - 64px);
+    height:calc(100vh - 64px);
+    overflow: hidden;
+}
+
+.nav-link.logout{
+    position: absolute;
+    bottom: 10px;
+    transition: all .3 ease-in-out;
+    width: calc(100% - 32px);
+}
+
+.nav-link.logout:hover{
+    color: var(--bs-danger);
+}
+
+.custom-border{
+    border: 2px solid var(--bs-border);
+    border-radius: 15px;
+}
+
+.task-item{
+    border-radius: 8px !important;
+    background-color: transparent;
+    border: 1px solid var(--bs-border);
+}
+
+.list-group-item.active{
+    background-color: transparent;
+    color: var(--bs-black);
+    border: 1px solid var(--bs-hover-primary);
+}
+
+.task-item p{
+    margin-bottom: .5rem;
+}
+
+.task-item p strong{
+    font-size: 20px;
+}
+
+.task-item p span{
+    font-size: 13px;
+    font-weight:700;
+}
+
+.task-item .date{
+    font-size: 16px;
+}
