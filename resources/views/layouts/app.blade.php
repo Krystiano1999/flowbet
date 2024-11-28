@@ -22,6 +22,7 @@
                 <p class="mb-0 text-dark"><strong>Budżet: </strong><strong>10</strong></p>
             </div>
             <div class="d-flex justify-content-end align-items-center">
+                <p class="mb-0 text-dark ms-5 me-3"><strong>Witaj, {{ auth()->user()->name }}</strong></p>
                 <div class="user-photo d-flex justify-content-center align-items-center bg-info text-white rounded-circle">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
@@ -33,7 +34,7 @@
             <div class="menu h-100 position-relative">
                 @include('partials.nav')
             </div>
-            <div class="content px-5 h-100">
+            <div class="content p-4 h-100">
                 @yield('content')
             </div>
         </div>

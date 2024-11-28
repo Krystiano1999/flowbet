@@ -26,7 +26,34 @@ header{
 
 .content{
     width: calc(100% - 265px);
-    padding-top: 2px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bs-primary) var(--bs-light);
+}
+
+.content::-webkit-scrollbar {
+    width: 10px; /* Szerokość scrolla */
+}
+
+.content::-webkit-scrollbar-track {
+    background: var(--bs-light); /* Tło tracka */
+    border-radius: 5px; /* Zaokrąglenia */
+}
+
+.content::-webkit-scrollbar-thumb {
+    background-color: var(--bs-primary); /* Kolor scrolla */
+    border-radius: 10px; /* Zaokrąglenia scrolla */
+    border: 2px solid var(--bs-light); /* Obwódka scrolla */
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bs-secondary); /* Kolor hover na scrollu */
+    border: 2px solid var(--bs-light);
+}
+
+.content::-webkit-scrollbar-thumb:active {
+    background-color: var(--bs-danger); /* Kolor aktywnego scrolla */
+    border: 2px solid var(--bs-light);
 }
 
 .content .row{
@@ -90,7 +117,7 @@ nav .nav-link i{
 
 .nav-link.logout{
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
     transition: all .3 ease-in-out;
     width: calc(100% - 32px);
 }

@@ -4,7 +4,7 @@
         <a href="{{ route('dashboard') }}" class="nav-link d-flex align-items-center">
             <i class="fas fa-tachometer-alt me-3"></i> Dashboard
         </a>
-        <a href="#" class="nav-link d-flex align-items-center">
+        <a href="{{ route('steps') }}" class="nav-link d-flex align-items-center">
             <i class="fas fa-shoe-prints me-3"></i> Kroki
         </a>
         <a href="#" class="nav-link d-flex align-items-center">
