@@ -31,5 +31,5 @@ Route::prefix('panel')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/steps', [StepController::class, 'store'])->name('steps.store');
-
+    Route::get('/steps', [StepController::class, 'index'])->name('steps.index');
 });

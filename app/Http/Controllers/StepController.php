@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStepRequest;
 use App\Services\StepService;
 use Illuminate\Http\JsonResponse;
+use App\Models\Step;
 
 class StepController extends Controller
 {
@@ -38,5 +39,20 @@ class StepController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Fetch all steps.
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $steps = Step::orderBy('step_number')->get();
+
+        return response()->json([
+            'success' => true,
+            'steps' => $steps,
+        ]);
     }
 }
