@@ -31,5 +31,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/transactions.js') }}"></script>
+<script type="module" src="{{ asset('js/transactions.js') }}"></script>
 @endpush

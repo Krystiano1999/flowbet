@@ -1,3 +1,5 @@
+import { fetchBudget } from './budget.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     //pobieranie kuponów według kroków
     const couponsContainer = document.getElementById('coupons-container');
@@ -238,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toastr.success(result.message, 'Sukces');
                 addCouponModal.hide();
                 couponForm.reset();
+                fetchBudget();
             } else {
                 toastr.error(result.message || 'Wystąpił błąd.', 'Błąd');
             }

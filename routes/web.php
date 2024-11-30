@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StepController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\BudgetController;
 
 Route::get('/', function () {
     return view('sites.index');
@@ -46,4 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
+
+    Route::get('/budget', [BudgetController::class, 'getBudget'])->name('budget.get');
 });

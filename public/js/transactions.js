@@ -1,3 +1,5 @@
+import { fetchBudget } from './budget.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const transactionsContainer = document.querySelector('.transactions-list');
     const addTransactionForm = document.getElementById('addTransactionForm');
@@ -13,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && result.success) {
                 renderTransactions(result.transactions);
+                fetchBudget();
             } else {
                 toastr.error('Nie udało się załadować listy transakcji.', 'Błąd');
             }
@@ -69,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     if (response.ok && result.success) {
                         Swal.fire('Usunięto!', result.message, 'success');
-    
+                        fetchBudget();
                         document.querySelector(`tr[data-id="${transactionId}"]`).remove();
                     } else {
                         Swal.fire('Błąd!', result.message || 'Nie udało się usunąć transakcji.', 'error');
@@ -104,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toastr.success(result.message, 'Sukces');
                 addTransactionModal.hide();
                 addTransactionForm.reset();
+                fetchBudget();
                 appendTransaction(result.transaction);
             } else if (response.status === 422) {
                 displayValidationErrors(result.errors);

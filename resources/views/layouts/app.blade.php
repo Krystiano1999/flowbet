@@ -19,7 +19,7 @@
         
         <div class="notify d-flex align-items-center justify-content-end right-side pe-5 py-2">
             <div class="d-block me-4">
-                <p class="mb-0 text-dark"><strong>Budżet: </strong><strong>10</strong></p>
+                <p class="mb-0 text-dark"><strong>Budżet: </strong><strong id="user-budget">Ładowanie...</strong></p>
             </div>
             <div class="d-flex justify-content-end align-items-center">
                 <p class="mb-0 text-dark ms-5 me-3"><strong>Witaj, {{ auth()->user()->name }}</strong></p>
@@ -49,7 +49,8 @@
         window.sessionError = @json(session('error'));
         window.validationErrors = @json($errors->all());
     </script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="module" src="{{ asset('js/budget.js') }}"></script>
+    <script type="module" src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

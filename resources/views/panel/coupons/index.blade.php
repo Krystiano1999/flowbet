@@ -20,5 +20,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/coupons.js') }}"></script>
+<script type="module" src="{{ asset('js/coupons.js') }}"></script>
 @endpush
