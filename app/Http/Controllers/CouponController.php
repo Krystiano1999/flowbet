@@ -55,4 +55,28 @@ class CouponController extends Controller
             'coupons' => $coupons,
         ]);
     }
+
+    /**
+     * Remove coupon.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $this->couponService->deleteCoupon($id);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Kupon został pomyślnie usunięty.',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nie udało się usunąć kuponu.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

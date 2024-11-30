@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::get('/coupons/data', [CouponController::class, 'index'])->name('coupons.data');
+    Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
  
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');

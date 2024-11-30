@@ -90,4 +90,22 @@ class CouponService
             })
             ->toArray();
     }
+
+    /**
+     * Delete coupon of ID.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteCoupon(int $id): void
+    {
+        $coupon = Coupon::findOrFail($id);
+
+        if ($coupon->user_id !== auth()->id()) {
+            throw new \Exception('Nie masz uprawnień do usunięcia tego kuponu.');
+        }
+
+        $coupon->delete();
+    }
+
 }

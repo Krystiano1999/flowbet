@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${coupon.loss_amount ? coupon.loss_amount.toFixed(2) + ' zł' : '-'}</td>
                     <td>${coupon.balance.toFixed(2)} zł</td>
                     <td>
-                        <button class="btn btn-sm btn-warning mb-1"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger delete-coupon" data-id="${coupon.id}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             `;
@@ -241,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 addCouponModal.hide();
                 couponForm.reset();
                 fetchBudget();
+                fetchCoupons();
             } else {
                 toastr.error(result.message || 'Wystąpił błąd.', 'Błąd');
             }
@@ -249,4 +250,49 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     });
+
+    // Usuwanie kuponu
+    document.addEventListener('click', async (event) => {
+        if (event.target.closest('.delete-coupon')) {
+            const button = event.target.closest('.delete-coupon');
+            const couponId = button.getAttribute('data-id');
+    
+            Swal.fire({
+                title: 'Czy na pewno?',
+                text: 'Tej operacji nie można cofnąć!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Tak, usuń',
+                cancelButtonText: 'Anuluj',
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch(`/coupons/${couponId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            },
+                        });
+    
+                        const result = await response.json();
+    
+                        if (response.ok && result.success) {
+                            Swal.fire('Usunięto!', result.message, 'success');
+                            fetchBudget();
+                            fetchCoupons();
+                            button.closest('tr').remove();
+                        } else {
+                            Swal.fire('Błąd!', result.message || 'Nie udało się usunąć kuponu.', 'error');
+                        }
+                    } catch (error) {
+                        Swal.fire('Błąd serwera!', 'Wystąpił błąd podczas usuwania kuponu.', 'error');
+                        console.error('Error:', error);
+                    }
+                }
+            });
+        }
+    });
+    
 });
