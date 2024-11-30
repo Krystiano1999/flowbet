@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StepController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('sites.index');
@@ -29,6 +30,8 @@ Route::prefix('panel')->group(function () {
 
     Route::view('/kroki', 'panel.steps.index')->name('steps');
     Route::view('/kupony', 'panel.coupons.index')->name('coupons');
+    Route::view('/transakcje', 'panel.transactions.index')->name('transactions');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -39,4 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::get('/coupons/data', [CouponController::class, 'index'])->name('coupons.data');
  
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+
 });
