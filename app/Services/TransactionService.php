@@ -32,4 +32,27 @@ class TransactionService
             'amount' => $data['amount'],
         ]);
     }
+
+    /**
+     * Get transactions of ID.
+     *
+     * @param int $id
+     * @return UserTransaction|null
+     */
+    public function getTransactionById(int $id): ?UserTransaction
+    {
+        return UserTransaction::find($id);
+    }
+
+    /**
+     * Remove transactions.
+     *
+     * @param UserTransaction $transaction
+     * @return bool
+     */
+    public function deleteTransaction(UserTransaction $transaction): bool
+    {
+        return $transaction->delete();
+    }
+
 }

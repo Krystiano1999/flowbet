@@ -48,4 +48,29 @@ class TransactionController extends Controller
             'transaction' => $transaction,
         ]);
     }
+
+    /**
+     * Remove transactions.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $transaction = $this->transactionService->getTransactionById($id);
+
+        if (!$transaction || $transaction->user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nie znaleziono transakcji lub brak uprawnień.',
+            ], 403);
+        }
+
+        $this->transactionService->deleteTransaction($transaction);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Transakcja została usunięta.',
+        ]);
+    }
 }

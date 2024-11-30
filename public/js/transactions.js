@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const addTransactionForm = document.getElementById('addTransactionForm');
     const addTransactionModal = new bootstrap.Modal(document.getElementById('addTransactionModal'));
 
-    // Funkcja ładowania danych
     async function fetchTransactions() {
         try {
             const response = await fetch('/transactions', {
@@ -23,21 +22,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Renderowanie danych
     function renderTransactions(transactions) {
-        transactionsContainer.innerHTML = ''; 
-
+        transactionsContainer.innerHTML = '';
+    
         transactions.forEach(transaction => {
             const transactionRow = document.createElement('tr');
+            transactionRow.dataset.id = transaction.id;
+    
             transactionRow.innerHTML = `
                 <td>${transaction.type === 'deposit' ? 'Wpłata' : 'Wypłata'}</td>
                 <td>${parseFloat(transaction.amount).toFixed(2)} zł</td>
+                <td>
+                    <button class="btn btn-danger btn-sm delete-transaction"><i class="fas fa-trash-alt me-1"></i> Usuń</button>
+                </td>
             `;
+    
+            transactionRow.querySelector('.delete-transaction').addEventListener('click', () => {
+                deleteTransaction(transaction.id);
+            });
+    
             transactionsContainer.appendChild(transactionRow);
         });
-    }
+    }    
 
-    // Obsługa formularza dodawania transakcji
+    async function deleteTransaction(transactionId) {
+        Swal.fire({
+            title: 'Czy na pewno?',
+            text: 'Tej operacji nie można cofnąć!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Tak, usuń',
+            cancelButtonText: 'Anuluj',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/transactions/${transactionId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        },
+                    });
+    
+                    const result = await response.json();
+    
+                    if (response.ok && result.success) {
+                        Swal.fire('Usunięto!', result.message, 'success');
+    
+                        document.querySelector(`tr[data-id="${transactionId}"]`).remove();
+                    } else {
+                        Swal.fire('Błąd!', result.message || 'Nie udało się usunąć transakcji.', 'error');
+                    }
+                } catch (error) {
+                    Swal.fire('Błąd serwera!', 'Wystąpił błąd podczas usuwania transakcji.', 'error');
+                    console.error('Error:', error);
+                }
+            }
+        });
+    }    
+
     addTransactionForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
@@ -72,21 +116,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Wyświetlanie błędów walidacji
+    function appendTransaction(transaction) {
+        const transactionRow = document.createElement('tr');
+        transactionRow.dataset.id = transaction.id; 
+
+        transactionRow.innerHTML = `
+            <td>${transaction.type === 'deposit' ? 'Wpłata' : 'Wypłata'}</td>
+            <td>${parseFloat(transaction.amount).toFixed(2)} zł</td>
+            <td>
+                <button class="btn btn-danger btn-sm delete-transaction"><i class="fas fa-trash-alt me-1"></i> Usuń</button>
+            </td>
+        `;
+
+        transactionRow.querySelector('.delete-transaction').addEventListener('click', () => {
+            deleteTransaction(transaction.id);
+        });
+
+        transactionsContainer.appendChild(transactionRow);
+    }
+
     function displayValidationErrors(errors) {
         Object.values(errors).forEach(errorArray => {
             errorArray.forEach(error => toastr.warning(error, 'Walidacja'));
         });
-    }
-
-    // Dodawanie nowej transakcji
-    function appendTransaction(transaction) {
-        const transactionRow = document.createElement('tr');
-        transactionRow.innerHTML = `
-            <td>${transaction.type === 'deposit' ? 'Wpłata' : 'Wypłata'}</td>
-            <td>${parseFloat(transaction.amount).toFixed(2)} zł</td>
-        `;
-        transactionsContainer.appendChild(transactionRow);
     }
 
     fetchTransactions();

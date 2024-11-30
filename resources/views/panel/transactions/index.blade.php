@@ -18,6 +18,7 @@
                 <tr>
                     <th>Rodzaj</th>
                     <th>Kwota</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody class="transactions-list"></tbody>
