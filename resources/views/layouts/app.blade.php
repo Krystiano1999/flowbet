@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
     <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}" />
-    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" />
+    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" /> 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
