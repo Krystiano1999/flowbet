@@ -108,4 +108,57 @@ class CouponService
         $coupon->delete();
     }
 
+    /**
+    * Update an existing coupon.
+    *
+    * @param int $id
+    * @param array $data
+    * @return Coupon
+    */
+    public function updateCoupon(int $id, array $data): Coupon
+    {
+        $coupon = Coupon::findOrFail($id);
+
+        if ($coupon->user_id !== auth()->id()) {
+            throw new \Exception('Nie masz uprawnień do edycji tego kuponu.');
+        }
+
+        $data['step_id'] = (int) $data['step_id'];
+        $data['amount'] = (float) $data['amount'];
+        $data['odds'] = (float) $data['odds'];
+        $data['events_count'] = (int) $data['events_count'];
+        $data['won_events_count'] = (int) $data['won_events_count'];
+        $data['lost_events_count'] = (int) $data['lost_events_count'];
+
+        if ($data['result'] === 'win') {
+            $data['win_amount'] = floor((($data['amount'] - ($data['amount'] * 0.12)) * $data['odds']) * 100) / 100;
+            $data['loss_amount'] = 0;
+        } elseif ($data['result'] === 'lose') {
+            $data['loss_amount'] = $data['amount'];
+            $data['win_amount'] = 0;
+        }
+
+        $coupon->update($data);
+
+        return $coupon;
+    }
+
+    /**
+     * Retrieve a single coupon by ID.
+     *
+     * @param int $id
+     * @return Coupon
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function getCouponById(int $id): Coupon
+    {
+        $coupon = Coupon::findOrFail($id);
+
+        if ($coupon->user_id !== auth()->id()) {
+            throw new \Exception('Nie masz uprawnień do przeglądania tego kuponu.');
+        }
+
+        return $coupon;
+    }
+
 }

@@ -42,7 +42,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::get('/coupons/data', [CouponController::class, 'index'])->name('coupons.data');
+    Route::put('/coupons/{id}', [CouponController::class, 'update'])->name('coupons.update');
     Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+    Route::get('/coupons/{id}', [CouponController::class, 'show'])->name('coupons.show');
  
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');

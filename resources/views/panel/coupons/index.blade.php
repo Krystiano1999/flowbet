@@ -16,6 +16,7 @@
 </div>
 
 @include('panel.coupons.modal.add_coupon')
+@include('panel.coupons.modal.edit_coupon')
 
 @endsection
 
