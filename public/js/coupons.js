@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Tworzenie elementu Accordion
-    function renderAccordionItem(stepNumber, data) {console.log(data);
+    function renderAccordionItem(stepNumber, data) {
         const coupons = data.coupons || [];
         const activeCount = coupons.filter(coupon => coupon.status === 'active').length;
         const winCount = coupons.filter(coupon =>coupon.result === 'win').length;
@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${coupon.loss_amount ? coupon.loss_amount.toFixed(2) + ' zł' : '-'}</td>
                     <td>${coupon.balance.toFixed(2)} zł</td>
                     <td>
-                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-warning edit-coupon" data-id="${coupon.id}" data-bs-toggle="modal" data-bs-target="#editCouponModal">
+                            <i class="fas fa-edit"></i>
+                        </button>
                         <button class="btn btn-sm btn-danger delete-coupon" data-id="${coupon.id}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
@@ -295,4 +297,77 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
+    // edycja kuponu
+    document.addEventListener('click', async (event) => {
+        if (event.target.closest('.edit-coupon')) {
+            const button = event.target.closest('.edit-coupon');
+            const couponId = button.getAttribute('data-id');
+    
+            try {
+                const response = await fetch(`/coupons/${couponId}`, {
+                    headers: { 'Accept': 'application/json' },
+                });
+    
+                const result = await response.json();
+    
+                if (response.ok && result.success) {
+                    populateEditForm(result.coupon);
+                } else {
+                    toastr.error('Nie udało się załadować danych kuponu.', 'Błąd');
+                }
+            } catch (error) {
+                toastr.error('Wystąpił błąd podczas ładowania kuponu.', 'Błąd serwera');
+                console.error('Error:', error);
+            }
+        }
+    });
+    
+    function populateEditForm(coupon) {
+        document.getElementById('edit_coupon_id').value = coupon.id;
+        document.getElementById('edit_step_id').value = coupon.step_id;
+        document.getElementById('edit_type').value = coupon.type;
+        document.getElementById('edit_amount').value = coupon.amount;
+        document.getElementById('edit_odds').value = coupon.odds;
+        document.getElementById('edit_result').value = coupon.result;
+        document.getElementById('edit_events_count').value = coupon.events_count;
+        document.getElementById('edit_won_events_count').value = coupon.won_events_count;
+        document.getElementById('edit_lost_events_count').value = coupon.lost_events_count;
+    }
+    
+    const editCouponForm = document.getElementById('editCouponForm');
+    const editCouponModal = new bootstrap.Modal(document.getElementById('editCouponModal'));
+
+    editCouponForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const couponId = document.getElementById('edit_coupon_id').value;
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch(`/coupons/${couponId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                toastr.success(result.message, 'Sukces');
+                fetchCoupons();
+                fetchBudget();
+                editCouponModal.hide();
+            } else {
+                toastr.error(result.message || 'Wystąpił błąd.', 'Błąd');
+            }
+        } catch (error) {
+            toastr.error('Wystąpił błąd podczas edycji kuponu.', 'Błąd serwera');
+            console.error('Error:', error);
+        }
+    });
+
 });
