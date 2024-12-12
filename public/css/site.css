@@ -1,0 +1,77 @@
+/* Header */
+header.navbar {
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1020;
+}
+
+.nav-link {
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #6610f2);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #6610f2, #007bff);
+}
+
+/* Hero Section */
+.hero-section {
+    height: 65vh;
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.hero-decorations {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+.circle-primary {
+    width: 500px;
+    height: 500px;
+    background: #007bff;
+    top: -100px;
+    left: -150px;
+}
+
+.circle-secondary {
+    width: 400px;
+    height: 400px;
+    background: #6610f2;
+    bottom: -150px;
+    right: -100px;
+}
